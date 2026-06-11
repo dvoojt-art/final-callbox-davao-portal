@@ -188,12 +188,7 @@ export default function LandingHero({ onEnterPortal, onOpenSitemap, announcement
                     <Megaphone className="h-3.5 w-3.5" />
                   </div>
                   <div>
-                    <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-brand-primary">Davao Branch Bulletins</h3>
-                    <p className="text-[10px] text-gray-500">
-                      {announcementsToUse.length === 1 
-                        ? "Active custom dispatch (No other post available to slide)" 
-                        : "Official company dispatches running continuously LTR (Hover to freeze)"}
-                    </p>
+                    <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-brand-primary">Callbox Davao Branch Bulletins</h3>
                   </div>
                 </div>
 
@@ -219,7 +214,7 @@ export default function LandingHero({ onEnterPortal, onOpenSitemap, announcement
                     return (
                       <div
                         key={ann.id}
-                        className="w-full max-w-xl text-left p-6 sm:p-8 bg-brand-surface/30 hover:bg-brand-surface/45 hover:border-brand-primary/40 border border-brand-primary/15 rounded-2xl cursor-pointer transition-all duration-300 flex flex-col justify-between min-h-[180px] shadow-lg group hover:scale-[1.01]"
+                        className="w-full max-w-2xl text-left p-8 sm:p-10 bg-brand-surface/30 hover:bg-brand-surface/45 hover:border-brand-primary/40 border border-brand-primary/15 rounded-2xl cursor-pointer transition-all duration-300 flex flex-col justify-between min-h-[240px] shadow-lg group hover:scale-[1.01]"
                         onClick={() => setSelectedAnnouncement(ann)}
                         id={`announcement-slide-${ann.id}`}
                       >
@@ -279,9 +274,9 @@ export default function LandingHero({ onEnterPortal, onOpenSitemap, announcement
                       // Compress cards if there are many active posts, otherwise spacious layout
                       const isMany = announcementsToUse.length >= 4;
                       // "compress when many": make card widths smaller / more compact when there are 4+ posts
-                      const cardWidthClass = isMany ? 'w-[250px] sm:w-[270px]' : 'w-[310px] sm:w-[340px]';
-                      const cardPaddingClass = isMany ? 'p-4' : 'p-5';
-                      const cardHeightClass = isMany ? 'h-38' : 'h-44';
+                      const cardWidthClass = isMany ? 'w-[320px] sm:w-[350px]' : 'w-[380px] sm:w-[410px]';
+                      const cardPaddingClass = isMany ? 'p-5 sm:p-6' : 'p-6 sm:p-8';
+                      const cardHeightClass = isMany ? 'h-48' : 'h-56';
 
                       return (
                         <div
@@ -292,33 +287,33 @@ export default function LandingHero({ onEnterPortal, onOpenSitemap, announcement
                           <div className={`${cardPaddingClass} bg-brand-surface/10 hover:bg-brand-surface/35 border border-white/5 hover:border-brand-primary/30 rounded-2xl flex flex-col justify-between ${cardHeightClass} transition-all duration-300 group`}>
                             <div>
                               {/* Metadata Row */}
-                              <div className="flex items-center justify-between mb-1.5">
-                                <span className={`text-[8px] font-mono font-bold tracking-wider uppercase border px-1.5 py-0.2 rounded-full ${badgeColor}`}>
+                              <div className="flex items-center justify-between mb-2">
+                                <span className={`text-[10px] font-mono font-bold tracking-wider uppercase border px-2 py-0.5 rounded-full ${badgeColor}`}>
                                   {ann.category}
                                 </span>
-                                <div className="flex items-center gap-1 text-[9px] font-mono text-gray-500 font-semibold">
-                                  {ann.isPinned && <Pin className="h-2.5 w-2.5 text-brand-primary fill-brand-primary shrink-0" />}
+                                <div className="flex items-center gap-1.5 text-[11px] font-mono text-gray-500 font-semibold">
+                                  {ann.isPinned && <Pin className="h-3 w-3 text-brand-primary fill-brand-primary shrink-0" />}
                                   <span>{ann.publishedDate}</span>
                                 </div>
                               </div>
 
                               {/* Title */}
-                              <h4 className="text-white font-display text-xs sm:text-sm font-semibold tracking-snug line-clamp-2 group-hover:text-brand-primary transition-colors flex items-center gap-1.5">
+                              <h4 className="text-white font-display text-sm sm:text-base font-bold tracking-snug line-clamp-2 group-hover:text-brand-primary transition-colors flex items-center gap-1.5">
                                 {ann.icon ? (
-                                  <span className="text-sm shrink-0 leading-none">{ann.icon}</span>
+                                  <span className="text-base shrink-0 leading-none">{ann.icon}</span>
                                 ) : null}
                                 <span>{ann.title}</span>
                               </h4>
 
                               {/* Summary */}
-                              <p className="text-[11px] text-gray-400 font-sans leading-relaxed line-clamp-2 mt-1">
+                              <p className="text-[12px] text-gray-400 font-sans leading-relaxed line-clamp-2 mt-1.5">
                                 {ann.summary}
                               </p>
                             </div>
 
                             {/* Footer link */}
-                            <div className="flex items-center justify-between text-[8px] sm:text-[9px] font-mono text-brand-primary mt-2 pt-2 border-t border-white/5">
-                              <span className="truncate max-w-[100px] text-gray-500">By {ann.publishedBy}</span>
+                            <div className="flex items-center justify-between text-[9px] sm:text-[10px] font-mono text-brand-primary mt-2 pt-2 border-t border-white/5">
+                              <span className="truncate max-w-[120px] text-gray-500">By {ann.publishedBy}</span>
                               <span className="font-bold uppercase tracking-wider flex items-center gap-0.5 group-hover:translate-x-1 transition-transform">Read &rarr;</span>
                             </div>
                           </div>

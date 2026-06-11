@@ -72,7 +72,6 @@ export function LinkPreviewImage({
       const screenshotUrl = `https://api.microlink.io/?url=${encodeURIComponent(url)}&screenshot=true&embed=screenshot.url`;
       
       const img = new Image();
-      img.src = screenshotUrl;
       img.onload = () => {
         if (active) {
           setImgSrc(screenshotUrl);
@@ -83,6 +82,7 @@ export function LinkPreviewImage({
           setImgSrc(defaultImg);
         }
       };
+      img.src = screenshotUrl;
     }, Math.random() * 800 + 100); // Randomized stagger delay to avoid simultaneous API requests limit
 
     return () => {

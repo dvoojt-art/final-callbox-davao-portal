@@ -101,6 +101,7 @@ import Announcements from './components/Announcements';
 import ResourceLibrary from './components/ResourceLibrary';
 import AnalyticsDashboard from './components/AnalyticsDashboard';
 import NetworkBackground from './components/NetworkBackground';
+import CustomCursor from './components/CustomCursor';
 
 const getInitials = (fullName: string) => {
   const parts = fullName.trim().replaceAll(/[^a-zA-Z\s]/g, '').split(/\s+/);
@@ -122,6 +123,12 @@ export default function App() {
   // Navigation Flow State
   const [viewMode, setViewMode] = useState<'landing' | 'login' | 'workspace'>(() => {
     try {
+      // If opened fresh via link, another tab, or another browser, sessionStorage is empty; force landing page
+      const isFreshSession = !sessionStorage.getItem('cb_session_active');
+      if (isFreshSession) {
+        return 'landing';
+      }
+
       const savedUser = localStorage.getItem('cb_currentUser_v2');
       const hasUser = savedUser ? JSON.parse(savedUser) : null;
       if (!hasUser) {
@@ -226,7 +233,19 @@ export default function App() {
   const [allAnnouncements, setAllAnnouncements] = useState<Announcement[]>(() => {
     try {
       const saved = localStorage.getItem('cb_allAnnouncements_v2');
-      return saved ? JSON.parse(saved) : mockAnnouncements;
+      const items = saved ? JSON.parse(saved) : mockAnnouncements;
+      if (Array.isArray(items)) {
+        const uniqueItems: Announcement[] = [];
+        const seenIds = new Set<string>();
+        for (const item of items) {
+          if (item && item.id && !seenIds.has(item.id)) {
+            seenIds.add(item.id);
+            uniqueItems.push(item);
+          }
+        }
+        return uniqueItems;
+      }
+      return mockAnnouncements;
     } catch {
       return mockAnnouncements;
     }
@@ -297,8 +316,14 @@ export default function App() {
   }, [viewMode]);
 
   useEffect(() => {
+    if (currentUser && (currentUser.role === 'Employee' || currentUser.role === 'Inactive')) {
+      if (activeTab === 'bulletins') {
+        setActiveTab('links');
+        return;
+      }
+    }
     localStorage.setItem('cb_activeTab_v2', activeTab);
-  }, [activeTab]);
+  }, [activeTab, currentUser]);
 
   useEffect(() => {
     localStorage.setItem('cb_approvalRequests_v2', JSON.stringify(approvalRequests));
@@ -383,8 +408,9 @@ export default function App() {
     }
   }, [favorites, currentUser?.id]);
 
-  // Hook to handle redirecting to the login screen after a page refresh
+  // Hook to handle redirecting to the login screen after a page refresh and flag sessionStorage as active
   useEffect(() => {
+    sessionStorage.setItem('cb_session_active', 'true');
     const directToLogin = localStorage.getItem('cb_directToLogin');
     if (directToLogin === 'true') {
       localStorage.removeItem('cb_directToLogin');
@@ -611,7 +637,7 @@ export default function App() {
   // Dispatch brand new announcement (HR / Admin)
   const handleAddAnnouncement = (item: Omit<Announcement, 'id' | 'publishedDate'>) => {
     const today = new Date().toISOString().split('T')[0];
-    const newId = `ann-${allAnnouncements.length + 1}`;
+    const newId = `ann-${Date.now()}`;
     
     const newAnnouncement: Announcement = {
       ...item,
@@ -1425,8 +1451,9 @@ export default function App() {
       {/* 1. Landing Hero Spheres view */}
       {viewMode === 'landing' && (
         <LandingHero 
-          onEnterPortal={() => setViewMode('login')} 
+          onEnterPortal={() => setViewMode(currentUser ? 'workspace' : 'login')} 
           onOpenSitemap={() => setIsSitemapOpen(true)} 
+          announcements={allAnnouncements}
         />
       )}
 
@@ -1695,7 +1722,7 @@ export default function App() {
               <nav className="flex gap-1.5 border-b border-white/10 pb-2.5 overflow-x-auto scrollbar-none whitespace-nowrap -mx-3 px-3 sm:mx-0 sm:px-0" id="portal-tab-dock">
                 {[
                   { id: 'links', label: 'Systems Hub', roleReq: ['Employee', 'HR', 'Super Admin'] },
-                  { id: 'bulletins', label: 'Bulletin Board', roleReq: ['Employee', 'HR', 'Super Admin'] },
+                  { id: 'bulletins', label: 'Bulletin Board', roleReq: ['HR', 'Super Admin'] },
                   { id: 'resources', label: 'SOP & Documents', roleReq: ['Employee', 'HR', 'Super Admin'] },
                   { id: 'analytics', label: 'Branch Analytics', roleReq: ['Employee', 'HR', 'Super Admin'] },
                   { id: 'admin', label: 'Governance Panel', roleReq: ['Super Admin', 'HR'] },
@@ -1964,6 +1991,9 @@ export default function App() {
 
       {/* 4. Global Interactive Core Sitemaps & Diagrams Drawer */}
       <SitemapOverlay isOpen={isSitemapOpen} onClose={() => setIsSitemapOpen(false)} />
+
+      {/* 4.5 Custom Cybernetic Interactive Cursor & Tracker */}
+      <CustomCursor />
 
       {/* 5. MANDATORY CRITICAL BROADCAST ACKNOWLEDGEMENT OVERLAY */}
       <AnimatePresence>

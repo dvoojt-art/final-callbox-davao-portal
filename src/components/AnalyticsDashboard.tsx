@@ -285,7 +285,7 @@ export default function AnalyticsDashboard({
                     <td className="py-3 text-gray-200 font-semibold">{log.actor}</td>
                     <td className="py-3 text-gray-400">{log.role}</td>
                     <td className="py-3 text-gray-300">{log.action}</td>
-                    <td className="py-3 text-gray-400 truncate max-w-[150px]">{log.target}</td>
+                    <td className="py-3 text-gray-400 truncate max-w-37.5">{log.target}</td>
                     <td className="py-3 text-right">
                       <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded border text-[10px] uppercase font-bold tracking-tight ${statusBadge}`}>
                         <Icon className="h-3 w-3 shrink-0" /> {log.status}

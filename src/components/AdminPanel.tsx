@@ -1054,7 +1054,7 @@ export default function AdminPanel({
       <div className="flex gap-2 border-b border-white/10 pb-3 overflow-x-auto scrollbar-none whitespace-nowrap -mx-4 px-4 sm:mx-0 sm:px-0">
         <button
           onClick={() => setActiveTab('roster')}
-          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 sm:py-3 min-h-[44px] rounded-xl text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer whitespace-nowrap ${
+          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 sm:py-3 min-h-11 rounded-xl text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer whitespace-nowrap ${
             activeTab === 'roster' 
               ? 'bg-brand-primary text-brand-dark font-bold' 
               : 'text-gray-400 hover:text-white hover:bg-white/5'
@@ -1065,7 +1065,7 @@ export default function AdminPanel({
 
         <button
           onClick={() => setActiveTab('linkManager')}
-          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 sm:py-3 min-h-[44px] rounded-xl text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer whitespace-nowrap ${
+          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 sm:py-3 min-h-11 rounded-xl text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer whitespace-nowrap ${
             activeTab === 'linkManager' 
               ? 'bg-brand-primary text-brand-dark font-bold' 
               : 'text-gray-400 hover:text-white hover:bg-white/5'
@@ -1076,7 +1076,7 @@ export default function AdminPanel({
 
         <button
           onClick={() => setActiveTab('approvals')}
-          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 sm:py-3 min-h-[44px] rounded-xl text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer whitespace-nowrap ${
+          className={`flex items-center gap-2 px-3.5 sm:px-4 py-2.5 sm:py-3 min-h-11 rounded-xl text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer whitespace-nowrap ${
             activeTab === 'approvals' 
               ? 'bg-brand-primary text-brand-dark font-bold' 
               : 'text-gray-400 hover:text-white hover:bg-white/5'
@@ -1378,7 +1378,7 @@ export default function AdminPanel({
                       playBeep(450, 0.05);
                       setSortBy(e.target.value as any);
                     }}
-                    className="bg-brand-dark/90 border border-white/10 text-white rounded-xl px-3 py-2 text-xs font-mono focus:outline-none focus:border-brand-primary cursor-pointer leading-tight min-h-[38px] w-full sm:w-auto"
+                    className="bg-brand-dark/90 border border-white/10 text-white rounded-xl px-3 py-2 text-xs font-mono focus:outline-none focus:border-brand-primary cursor-pointer leading-tight min-h-9.5 w-full sm:w-auto"
                     title="Sort employees"
                   >
                     <option value="alphabetical_asc">Name (A-Z)</option>
@@ -1389,7 +1389,7 @@ export default function AdminPanel({
                 </div>
               </div>
 
-              <div className="overflow-auto max-h-[500px] pr-1" id="active-roster-table-container">
+              <div className="overflow-auto max-h-125 pr-1" id="active-roster-table-container">
                 {sortedEmployees.length === 0 ? (
                   <div className="text-center py-12 text-gray-500 font-mono text-xs border border-dashed border-white/10 rounded-xl flex flex-col items-center justify-center gap-2">
                     <Search className="h-5 w-5 text-gray-600 animate-pulse" />
@@ -1461,7 +1461,7 @@ export default function AdminPanel({
                         <td className="py-3 text-right">
                           <div className="flex items-center justify-end gap-2 pr-2">
                             {deletingId === emp.id ? (
-                              <div className="flex items-center gap-1.5 min-w-[140px]">
+                              <div className="flex items-center gap-1.5 min-w-35">
                                 <span className="text-[10px] font-mono text-rose-400 font-bold uppercase tracking-tight mr-1">Are you sure?</span>
                                 <button
                                   type="button"
@@ -1624,7 +1624,7 @@ export default function AdminPanel({
 
                   {/* Mock live feed area */}
                   <div className="relative aspect-video rounded-xl bg-black border border-cyan-500/20 overflow-hidden flex flex-col items-center justify-center p-3">
-                    <div className="absolute inset-x-0 h-[2px] bg-cyan-500/80 shadow-[0_0_10px_#06b6d4] scanner-laser-line z-10" />
+                    <div className="absolute inset-x-0 h-0.5 bg-cyan-500/80 shadow-[0_0_10px_#06b6d4] scanner-laser-line z-10" />
                     <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,_rgba(0,0,0,0.25)_50%),_linear-gradient(90deg,_rgba(255,0,0,0.06),_rgba(0,255,0,0.02),_rgba(0,0,255,0.06))] bg-[size:100%_4px,_6px_100%] pointer-events-none opacity-40" />
                     
                     {isScanningLinkProcess ? (
@@ -1635,7 +1635,7 @@ export default function AdminPanel({
                     ) : (
                       <div className="text-center space-y-1 z-20">
                         <Scan className="h-6 w-6 text-gray-500 mx-auto animate-pulse" />
-                        <span className="text-[9px] text-gray-400 font-mono max-w-[180px] block text-center">Select an active Davao protocol template below to scan & extract mapping fields:</span>
+                        <span className="text-[9px] text-gray-400 font-mono max-w-45 block text-center">Select an active Davao protocol template below to scan & extract mapping fields:</span>
                       </div>
                     )}
                   </div>
@@ -1930,14 +1930,14 @@ export default function AdminPanel({
             <h3 className="font-display font-semibold text-sm text-white">Active Link Directory Catalog</h3>
             <p className="text-xs text-gray-400">Review integrated applications and safely delete legacy gateways.</p>
 
-            <ul className="space-y-2 max-h-[420px] overflow-y-auto pr-1">
+            <ul className="space-y-2 max-h-105 overflow-y-auto pr-1">
               {links.map((link) => (
                 <li key={link.id} className="flex justify-between items-center p-3 rounded-xl bg-white/5 border border-white/5 hover:border-brand-primary/20 transition-all">
                   <div className="min-w-0 flex items-center gap-3">
                     <span className="font-mono text-[9px] text-gray-500 uppercase shrink-0">{link.category}</span>
                     <div className="truncate">
                       <div className="flex items-center gap-1.5">
-                        <p className="font-bold text-white text-xs truncate max-w-[150px]">{link.title}</p>
+                        <p className="font-bold text-white text-xs truncate max-w-37.5">{link.title}</p>
                         {link.isForInactive && (
                           <span className="text-[8px] uppercase px-1 font-bold bg-yellow-500/10 text-yellow-500 rounded border border-yellow-500/10 shrink-0">
                             INACTIVE OK

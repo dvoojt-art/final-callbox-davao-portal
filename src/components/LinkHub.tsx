@@ -66,28 +66,45 @@ export function LinkPreviewImage({
     if (!isInView) return;
 
     let active = true;
+    let resolved = false;
     setLoading(true);
 
+    // Dynamic responsive fallback: if API requests take longer than 4.5 seconds, fallback to high-res thematic Unsplash
+    const timeoutTimer = setTimeout(() => {
+      if (active && !resolved) {
+        resolved = true;
+        setImgSrc(defaultImg);
+        setLoading(false);
+        setImageLoaded(true);
+      }
+    }, 4500);
+
     const delayTimer = setTimeout(() => {
+      if (resolved) return;
       const screenshotUrl = `https://api.microlink.io/?url=${encodeURIComponent(url)}&screenshot=true&embed=screenshot.url`;
       
       const img = new Image();
       img.onload = () => {
-        if (active) {
+        if (active && !resolved) {
+          resolved = true;
           setImgSrc(screenshotUrl);
         }
       };
       img.onerror = () => {
-        if (active) {
+        if (active && !resolved) {
+          resolved = true;
           setImgSrc(defaultImg);
+          setLoading(false);
+          setImageLoaded(true);
         }
       };
       img.src = screenshotUrl;
-    }, Math.random() * 800 + 100); // Randomized stagger delay to avoid simultaneous API requests limit
+    }, Math.random() * 600 + 100); // Randomized stagger delay to avoid simultaneous API requests limit
 
     return () => {
       active = false;
       clearTimeout(delayTimer);
+      clearTimeout(timeoutTimer);
     };
   }, [url, isInView, defaultImg]);
 
@@ -136,6 +153,11 @@ export function LinkPreviewImage({
           onLoad={() => {
             setImageLoaded(true);
             setLoading(false);
+          }}
+          onError={() => {
+            if (imgSrc !== defaultImg) {
+              setImgSrc(defaultImg);
+            }
           }}
           className={`w-full h-full object-cover transition-all duration-700 ease-out ${
             imageLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-95'

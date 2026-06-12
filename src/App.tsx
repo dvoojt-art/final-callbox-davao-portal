@@ -155,6 +155,11 @@ export default function App() {
   // Authenticated Profile State
   const [currentUser, setCurrentUser] = useState<Employee | null>(() => {
     try {
+      const isFreshSession = !sessionStorage.getItem('cb_session_active');
+      if (isFreshSession) {
+        localStorage.removeItem('cb_currentUser_v2');
+        return null;
+      }
       const saved = localStorage.getItem('cb_currentUser_v2');
       return saved ? JSON.parse(saved) : null;
     } catch {
@@ -935,19 +940,25 @@ export default function App() {
     if (isSupabaseConfigured) {
       upsertRemoteEmployee(employee);
     }
-    setAllEmployees(prev => {
-      const updated = [...prev, employee];
-      // Push notification broadcast
-      const newNotif: SystemNotification = {
-        id: `notif-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
-        title: 'New Employee Registered',
-        message: `${employee.name} added as ${employee.position} (${employee.department}). Current roster: ${updated.length} active employees.`,
-        type: 'hr',
-        timestamp: 'Just now',
-        isRead: false
-      };
-      setNotifications(notifs => [newNotif, ...notifs]);
-      return updated;
+    setAllEmployees(prev => [...prev, employee]);
+
+    // Push notification broadcast
+    const newNotif: SystemNotification = {
+      id: `notif-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+      title: 'New Employee Registered',
+      message: `${employee.name} added as ${employee.position} (${employee.department}). Current roster: ${allEmployees.length + 1} active employees.`,
+      type: 'hr',
+      timestamp: 'Just now',
+      isRead: false
+    };
+    setNotifications(notifs => {
+      const updatedList = [newNotif, ...notifs];
+      const seen = new Set();
+      return updatedList.filter(n => {
+        if (!n.id || seen.has(n.id)) return false;
+        seen.add(n.id);
+        return true;
+      });
     });
 
     const today = new Date().toISOString().split('T')[0];
@@ -1247,19 +1258,25 @@ export default function App() {
       postedByRole: currentUser?.role || 'Super Admin'
     };
 
-    setAllLinks(prev => {
-      const updated = [...prev, newLink];
-      // Push notification broadcast
-      const newNotif: SystemNotification = {
-        id: `notif-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
-        title: 'New Resource Integrated',
-        message: `"${newLink.title}" posted to [${newLink.category}]. Active system links: ${updated.length} resources.`,
-        type: 'announcement',
-        timestamp: 'Just now',
-        isRead: false
-      };
-      setNotifications(notifs => [newNotif, ...notifs]);
-      return updated;
+    setAllLinks(prev => [...prev, newLink]);
+
+    // Push notification broadcast
+    const newNotif: SystemNotification = {
+      id: `notif-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+      title: 'New Resource Integrated',
+      message: `"${newLink.title}" posted to [${newLink.category}]. Active system links: ${allLinks.length + 1} resources.`,
+      type: 'announcement',
+      timestamp: 'Just now',
+      isRead: false
+    };
+    setNotifications(notifs => {
+      const updatedList = [newNotif, ...notifs];
+      const seen = new Set();
+      return updatedList.filter(n => {
+        if (!n.id || seen.has(n.id)) return false;
+        seen.add(n.id);
+        return true;
+      });
     });
 
     // Upsert to Supabase if active

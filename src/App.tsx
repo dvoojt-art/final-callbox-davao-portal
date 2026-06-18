@@ -318,6 +318,8 @@ export default function App() {
   // Local Storage Synchronization Effects
   useEffect(() => {
     localStorage.setItem('cb_viewMode_v2', viewMode);
+    // Smooth/instant scroll to top to prevent inheriting previous page's scroll positions
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   }, [viewMode]);
 
   useEffect(() => {
@@ -1440,7 +1442,10 @@ export default function App() {
   // Log outs
   const handleSignOut = () => {
     setCurrentUser(null);
-    setViewMode('landing');
+    localStorage.removeItem('cb_currentUser_v2');
+    localStorage.setItem('cb_viewMode_v2', 'landing');
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    window.location.reload();
   };
 
   // Computed counters to share within modules
@@ -1479,7 +1484,11 @@ export default function App() {
         <LoginScreen 
           onLoginSuccess={handleLoginSuccess} 
           employees={allEmployees} 
-          onBackToLanding={() => setViewMode('landing')} 
+          onBackToLanding={() => {
+            localStorage.setItem('cb_viewMode_v2', 'landing');
+            window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+            window.location.reload();
+          }} 
           onSetEmployeePassword={handleSetEmployeePassword}
           onRequestPasscodeReset={handleRequestPasscodeReset}
         />

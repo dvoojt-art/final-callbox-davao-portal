@@ -42,6 +42,20 @@ export default function LoginScreen({
   const [confirmPasscode, setConfirmPasscode] = useState('');
   const [showNewPasscode, setShowNewPasscode] = useState(false);
 
+  // Caps Lock detection state and check handlers
+  const [isCapsLockOn, setIsCapsLockOn] = useState(false);
+
+  const checkCapsLock = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    setIsCapsLockOn(e.getModifierState('CapsLock'));
+  };
+
+  const checkCapsLockFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    const nativeEvent = e.nativeEvent as any;
+    if (nativeEvent && typeof nativeEvent.getModifierState === 'function') {
+      setIsCapsLockOn(nativeEvent.getModifierState('CapsLock'));
+    }
+  };
+
   // States for resetting forgotten passcode
   const [isResettingPasscode, setIsResettingPasscode] = useState(false);
   const [resetVerificationId, setResetVerificationId] = useState('');
@@ -287,6 +301,10 @@ export default function LoginScreen({
       setErrorMessage('Passcode must be at least 4 characters long.');
       return;
     }
+    if (newPasscode.trim() === 'callbox2026') {
+      setErrorMessage('Passcode cannot be the default "callbox2026". Please specify a secure unique custom passcode.');
+      return;
+    }
     if (newPasscode.trim() !== confirmPasscode.trim()) {
       setErrorMessage('Passcodes do not match. Please verify your entries.');
       return;
@@ -450,8 +468,8 @@ export default function LoginScreen({
         }
 
         // If the user's passcode setup is not complete (newly created CSV or admin passcode reset),
-        // they must configure their own customized passcode first.
-        if (lookupUser.isPasscodeSetupComplete === false) {
+        // or they used the default / reset passcode 'callbox2026', they must configure their own customized passcode first.
+        if (lookupUser.isPasscodeSetupComplete === false || expectedPassword === 'callbox2026' || password.trim() === 'callbox2026') {
           setSetupPasscodeUser(lookupUser);
           setNewPasscode('');
           setConfirmPasscode('');
@@ -551,6 +569,10 @@ export default function LoginScreen({
                       placeholder="At least 4 characters"
                       value={newPasscode}
                       onChange={(e) => setNewPasscode(e.target.value)}
+                      onKeyDown={checkCapsLock}
+                      onKeyUp={checkCapsLock}
+                      onFocus={checkCapsLockFocus}
+                      onBlur={() => setIsCapsLockOn(false)}
                       disabled={isAuthorizing}
                       className="w-full bg-brand-dark/95 border border-white/10 rounded-xl pl-9 pr-9 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-brand-primary disabled:opacity-50 font-mono text-[11px]"
                       title="New passcode input"
@@ -570,12 +592,30 @@ export default function LoginScreen({
                       placeholder="Verify passcode"
                       value={confirmPasscode}
                       onChange={(e) => setConfirmPasscode(e.target.value)}
+                      onKeyDown={checkCapsLock}
+                      onKeyUp={checkCapsLock}
+                      onFocus={checkCapsLockFocus}
+                      onBlur={() => setIsCapsLockOn(false)}
                       disabled={isAuthorizing}
                       className="w-full bg-brand-dark/95 border border-white/10 rounded-xl pl-9 pr-9 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-brand-primary disabled:opacity-50 font-mono text-[11px]"
                       title="Confirm passcode input"
                     />
                   </div>
                 </div>
+
+                <AnimatePresence>
+                  {isCapsLockOn && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="text-amber-400 flex items-center gap-1.5 font-mono text-[10px] bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-xl"
+                    >
+                      <AlertCircle className="h-3.5 w-3.5 text-amber-400 animate-pulse" />
+                      <span>Warning: CAPS LOCK is active</span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
                 <div className="flex items-center justify-between text-[10px] font-mono select-none">
                   <button
@@ -802,11 +842,28 @@ export default function LoginScreen({
                             setSelectedEmployee(null);
                             setSetupSuccessMessage('');
                           }}
+                          onKeyDown={checkCapsLock}
+                          onKeyUp={checkCapsLock}
+                          onFocus={checkCapsLockFocus}
+                          onBlur={() => setIsCapsLockOn(false)}
                           disabled={isAuthorizing}
                           className="w-full bg-brand-dark/90 border border-white/10 rounded-xl pl-10 pr-3.5 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-brand-primary disabled:opacity-50 font-mono text-[11px]"
                           title="User identity parameter"
                         />
                       </div>
+                      <AnimatePresence>
+                        {isCapsLockOn && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="text-amber-400 mt-1.5 flex items-center gap-1.5 font-mono text-[10px] bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-xl animate-pulse"
+                          >
+                            <AlertCircle className="h-3.5 w-3.5 text-amber-400" />
+                            <span>Warning: CAPS LOCK is active</span>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                       <div className="mt-1.5 flex items-center justify-between text-[10px] text-gray-500 font-mono">
                         <span>Required Domain: <strong className="text-brand-primary">@callboxinc.com</strong></span>
                         <span>Identity Sync Active</span>
@@ -869,6 +926,10 @@ export default function LoginScreen({
                               disabled={isAuthorizing}
                               className="w-full bg-brand-dark/90 border border-white/10 rounded-xl pl-10 pr-10 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-brand-primary disabled:opacity-50 font-mono text-[11px]"
                               title="Employee password field"
+                              onKeyDown={checkCapsLock}
+                              onKeyUp={checkCapsLock}
+                              onFocus={checkCapsLockFocus}
+                              onBlur={() => setIsCapsLockOn(false)}
                             />
                             <motion.button
                               type="button"
@@ -884,6 +945,20 @@ export default function LoginScreen({
                               )}
                             </motion.button>
                           </div>
+                          <AnimatePresence>
+                            {isCapsLockOn && (
+                              <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                exit={{ opacity: 0, height: 0 }}
+                                className="text-amber-400 mt-1.5 flex items-center gap-1.5 font-mono text-[10px] bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-xl animated animate-pulse"
+                              >
+                                <AlertCircle className="h-3.5 w-3.5 text-amber-400" />
+                                <span>Warning: CAPS LOCK is active</span>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+
                           <div className="mt-1.5 flex items-center justify-between text-[10px] text-gray-500 font-mono">
                             <span>Secure validation enabled</span>
                             <span>Default Passcode: <strong className="text-brand-primary">callbox2026</strong></span>
@@ -1024,6 +1099,10 @@ export default function LoginScreen({
                         disabled={isAuthorizing}
                         className="w-full bg-brand-dark/90 border border-white/10 rounded-xl pl-10 pr-10 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-brand-primary disabled:opacity-50 font-mono text-[11px]"
                         title="Administrative Password"
+                        onKeyDown={checkCapsLock}
+                        onKeyUp={checkCapsLock}
+                        onFocus={checkCapsLockFocus}
+                        onBlur={() => setIsCapsLockOn(false)}
                       />
                       <motion.button
                         type="button"
@@ -1039,6 +1118,20 @@ export default function LoginScreen({
                         )}
                       </motion.button>
                     </div>
+
+                    <AnimatePresence>
+                      {isCapsLockOn && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          className="text-amber-400 mt-2 flex items-center gap-1.5 font-mono text-[10px] bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-xl animate-pulse"
+                        >
+                          <AlertCircle className="h-3.5 w-3.5 text-amber-400" />
+                          <span>Warning: CAPS LOCK is active</span>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
 
                   <motion.button

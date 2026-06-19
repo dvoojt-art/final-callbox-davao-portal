@@ -419,11 +419,26 @@ export default function LoginScreen({
           isMatch = password.trim() === 'admin123' || password.trim() === 'callboxdavaoadmin';
         }
 
+        // Support 'callbox2026' default reset password
+        if (!isMatch && expectedPassword === 'callbox2026') {
+          isMatch = password.trim() === 'callbox2026';
+        }
+
         if (!isMatch) {
           setErrorMessage(`Clearance mismatch. Passcode for ${lookupUser.role} of ${lookupUser.name} is invalid.`);
           setIsAuthorizing(false);
           return;
         }
+
+        // If the HR/Admin's passcode setup is not complete, or they used the default/reset 'callbox2026' passcode, force setup
+        if (lookupUser.isPasscodeSetupComplete === false || expectedPassword === 'callbox2026' || password.trim() === 'callbox2026') {
+          setSetupPasscodeUser(lookupUser);
+          setNewPasscode('');
+          setConfirmPasscode('');
+          setIsAuthorizing(false);
+          return;
+        }
+
         onLoginSuccess(lookupUser);
         setIsAuthorizing(false);
         return;

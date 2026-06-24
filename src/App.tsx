@@ -673,7 +673,8 @@ export default function App() {
       message: `${currentUser?.name} dispatched: "${item.title}"`,
       type: 'announcement',
       timestamp: 'Just now',
-      isRead: false
+      isRead: false,
+      targetTab: 'bulletins'
     };
     setNotifications(prev => [newNotif, ...prev]);
   };
@@ -703,7 +704,8 @@ export default function App() {
       message: `${currentUser?.name || 'Administrator'} archived the announcement: "${targetItem?.title || 'Unknown'}"`,
       type: 'announcement',
       timestamp: 'Just now',
-      isRead: false
+      isRead: false,
+      targetTab: 'bulletins'
     };
     setNotifications(prev => [delNotif, ...prev]);
   };
@@ -741,7 +743,8 @@ export default function App() {
       message: `${currentUser?.name || 'Authorized User'} uploaded SOP/document: "${item.title}" [${item.fileType.toUpperCase()}]`,
       type: 'resource',
       timestamp: 'Just now',
-      isRead: false
+      isRead: false,
+      targetTab: 'resources'
     };
     setNotifications(prev => [uploadNotif, ...prev]);
   };
@@ -783,7 +786,8 @@ export default function App() {
         message: `${currentUser?.name || 'Administrator'} deleted the SOP/document: "${targetDoc.title}"`,
         type: 'resource',
         timestamp: 'Just now',
-        isRead: false
+        isRead: false,
+        targetTab: 'resources'
       };
       setNotifications(prev => [delDocNotif, ...prev]);
       setFeedbackToast(`"${targetDoc.title}" deleted from resource library.`);
@@ -850,7 +854,8 @@ export default function App() {
         message: `HR Manager "${currentUser.name}" requested role elevation of "${alteredEmp.name}" to [${newRole}].`,
         type: 'hr',
         timestamp: 'Just now',
-        isRead: false
+        isRead: false,
+        targetTab: 'admin'
       };
       setNotifications(prev => [newNotif, ...prev]);
 
@@ -903,7 +908,8 @@ export default function App() {
       message: `${currentUser?.name || 'Administrator'} updated the security role of "${alteredEmp?.name}" to [${newRole}].`,
       type: 'hr',
       timestamp: 'Just now',
-      isRead: false
+      isRead: false,
+      targetTab: 'admin'
     };
     setNotifications(prev => [assignNotif, ...prev]);
 
@@ -951,7 +957,8 @@ export default function App() {
       message: `${employee.name} added as ${employee.position} (${employee.department}). Current roster: ${allEmployees.length + 1} active employees.`,
       type: 'hr',
       timestamp: 'Just now',
-      isRead: false
+      isRead: false,
+      targetTab: 'admin'
     };
     setNotifications(notifs => {
       const updatedList = [newNotif, ...notifs];
@@ -1007,7 +1014,8 @@ export default function App() {
         message: `HR Manager "${currentUser.name}" requested deletion of employee profile: "${targetEmp.name}".`,
         type: 'hr',
         timestamp: 'Just now',
-        isRead: false
+        isRead: false,
+        targetTab: 'admin'
       };
       setNotifications(prev => [newNotif, ...prev]);
 
@@ -1029,7 +1037,8 @@ export default function App() {
       message: `${currentUser?.name || 'Administrator'} deleted the employee profile of "${targetEmp.name}".`,
       type: 'hr',
       timestamp: 'Just now',
-      isRead: false
+      isRead: false,
+      targetTab: 'admin'
     };
     setNotifications(prev => [deleteNotif, ...prev]);
 
@@ -1196,7 +1205,8 @@ export default function App() {
       message: `Super Admin approved the ${req.type === 'change_role' ? 'role designation update' : 'account deletion'} request for "${req.employeeName}".`,
       type: 'hr',
       timestamp: 'Just now',
-      isRead: false
+      isRead: false,
+      targetTab: 'admin'
     };
     setNotifications(prev => [approveNotif, ...prev]);
   };
@@ -1215,7 +1225,8 @@ export default function App() {
         message: `Super Admin rejected the ${req.type === 'change_role' ? 'role designation update' : 'account deletion'} request for "${req.employeeName}".`,
         type: 'hr',
         timestamp: 'Just now',
-        isRead: false
+        isRead: false,
+        targetTab: 'admin'
       };
       setNotifications(prev => [denyNotif, ...prev]);
     }
@@ -1233,7 +1244,8 @@ export default function App() {
         message: `Approval request registry for "${req.employeeName}" removed from ledger by "${currentUser?.name}".`,
         type: 'hr',
         timestamp: 'Just now',
-        isRead: false
+        isRead: false,
+        targetTab: 'admin'
       };
       setNotifications(prev => [delReqNotif, ...prev]);
     }
@@ -1269,7 +1281,8 @@ export default function App() {
       message: `"${newLink.title}" posted to [${newLink.category}]. Active system links: ${allLinks.length + 1} resources.`,
       type: 'announcement',
       timestamp: 'Just now',
-      isRead: false
+      isRead: false,
+      targetTab: 'links'
     };
     setNotifications(notifs => {
       const updatedList = [newNotif, ...notifs];
@@ -1326,7 +1339,8 @@ export default function App() {
       message: `"${matchingLink?.title || 'Legacy resources'}" was removed from the general index list by "${currentUser?.name}".`,
       type: 'announcement',
       timestamp: 'Just now',
-      isRead: false
+      isRead: false,
+      targetTab: 'links'
     };
     setNotifications(prev => [delLinkNotif, ...prev]);
 
@@ -1957,38 +1971,67 @@ export default function App() {
                       </div>
                     ) : (
                       <ul className="space-y-3.5 font-sans text-xs max-h-[380px] overflow-y-auto pr-1">
-                        {notifications.map((notif, idx) => (
-                          <li 
-                            key={`${notif.id}-${idx}`} 
-                            className={`p-3.5 rounded-xl border transition-all duration-300 relative overflow-hidden group/item ${
-                              notif.isRead 
-                                ? 'bg-brand-dark/30 border-white/5 opacity-60' 
-                                : 'bg-brand-dark/70 border-brand-primary/10 hover:border-brand-primary/25'
-                            }`}
-                          >
-                            <div className="flex items-start justify-between gap-2">
-                              {/* Circle style alerts */}
-                              <div className="flex items-start gap-2.5 flex-1 min-w-0">
-                                <span className={`h-2 w-2 rounded-full mt-1.5 shrink-0 transition-colors duration-300 ${notif.isRead ? 'bg-white/10' : 'bg-brand-primary'}`} />
-                                <div className="min-w-0">
-                                  <p className="font-semibold text-white truncate">{notif.title}</p>
-                                  <p className="text-gray-400 mt-0.5 whitespace-normal break-words leading-relaxed">{notif.message}</p>
-                                  <span className="text-[10px] text-gray-500 font-mono mt-1.5 block">{notif.timestamp}</span>
+                        {notifications.map((notif, idx) => {
+                          const resolvedTab = notif.targetTab || (
+                            notif.type === 'announcement' ? 'bulletins' :
+                            notif.type === 'resource' ? 'resources' :
+                            notif.type === 'hr' ? 'admin' :
+                            notif.type === 'it' ? 'links' : 'links'
+                          );
+
+                          return (
+                            <li 
+                              key={`${notif.id}-${idx}`} 
+                              onClick={() => {
+                                // Mark as read
+                                setNotifications(prev => prev.map(n => n.id === notif.id ? { ...n, isRead: true } : n));
+                                // Navigate to tab
+                                setActiveTab(resolvedTab);
+                                setIsNotifOpen(false);
+                                setFeedbackToast(`Navigated to: ${resolvedTab === 'links' ? 'Links Directory' : resolvedTab === 'bulletins' ? 'System Bulletins' : resolvedTab === 'resources' ? 'Resource Library' : resolvedTab === 'admin' ? 'Administrative Hub' : resolvedTab}`);
+                              }}
+                              className={`p-3.5 rounded-xl border transition-all duration-300 relative overflow-hidden group/item cursor-pointer select-none ${
+                                notif.isRead 
+                                  ? 'bg-brand-dark/30 border-white/5 opacity-60 hover:opacity-100 hover:border-white/10' 
+                                  : 'bg-brand-dark/70 border-brand-primary/10 hover:border-brand-primary/25 hover:bg-brand-dark/95'
+                              }`}
+                            >
+                              {/* Background subtle neon indicator on unread */}
+                              {!notif.isRead && (
+                                <div className="absolute top-0 left-0 w-1 h-full bg-brand-primary" />
+                              )}
+                              
+                              <div className="flex items-start justify-between gap-2">
+                                {/* Circle style alerts */}
+                                <div className="flex items-start gap-2.5 flex-1 min-w-0">
+                                  <span className={`h-2 w-2 rounded-full mt-1.5 shrink-0 transition-colors duration-300 ${notif.isRead ? 'bg-white/10' : 'bg-brand-primary'}`} />
+                                  <div className="min-w-0">
+                                    <p className="font-semibold text-white truncate">{notif.title}</p>
+                                    <p className="text-gray-400 mt-0.5 whitespace-normal break-words leading-relaxed">{notif.message}</p>
+                                    
+                                    <div className="flex justify-between items-center mt-2.5">
+                                      <span className="text-[9px] text-gray-500 font-mono">{notif.timestamp}</span>
+                                      <span className="text-[8px] uppercase font-mono font-bold tracking-wider px-1.5 py-0.5 rounded bg-brand-primary/10 text-brand-primary border border-brand-primary/10 group-hover/item:border-brand-primary/20 transition-all">
+                                        GO TO: {resolvedTab === 'links' ? 'Links' : resolvedTab === 'bulletins' ? 'Bulletins' : resolvedTab === 'resources' ? 'Resources' : resolvedTab === 'admin' ? 'Admin' : resolvedTab}
+                                      </span>
+                                    </div>
+                                  </div>
                                 </div>
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation(); // Prevent trigger click on li
+                                    setNotifications(prev => prev.filter(n => n.id !== notif.id));
+                                  }}
+                                  className="p-1.5 rounded-lg bg-white/5 hover:bg-rose-500/10 hover:text-rose-400 text-gray-500 transition-all cursor-pointer shrink-0 opacity-0 group-hover/item:opacity-100 focus:opacity-100"
+                                  title="Dismiss notification"
+                                >
+                                  <X className="h-3 w-3" />
+                                </button>
                               </div>
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setNotifications(prev => prev.filter(n => n.id !== notif.id));
-                                }}
-                                className="p-1.5 rounded-lg bg-white/5 hover:bg-rose-500/10 hover:text-rose-400 text-gray-500 transition-all cursor-pointer shrink-0 opacity-0 group-hover/item:opacity-100 focus:opacity-100"
-                                title="Dismiss notification"
-                              >
-                                <X className="h-3 w-3" />
-                              </button>
-                            </div>
-                          </li>
-                        ))}
+                            </li>
+                          );
+                        })}
                       </ul>
                     )}
                   </div>
@@ -2028,7 +2071,7 @@ export default function App() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-100 flex items-center justify-center bg-black/95 backdrop-blur-md p-4 min-h-screen"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-md p-4 min-h-screen"
             id="critical-acknowledgement-overlay"
           >
             <motion.div

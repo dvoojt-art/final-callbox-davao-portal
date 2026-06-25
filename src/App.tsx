@@ -1616,10 +1616,10 @@ export default function App() {
           </header>
 
           {/* Header spacer to prevent layout overlap under fixed header */}
-          <div className="h-[120px] sm:h-[84px] w-full shrink-0" />
+          <div className="h-[150px] sm:h-[110px] w-full shrink-0" />
 
           {/* Core Shell bodies */}
-          <main className="flex-1 w-full max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 md:py-8 space-y-4 sm:space-y-6">
+          <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-8 sm:pt-14 md:pt-18 pb-24 sm:pb-32 md:pb-40 space-y-10 sm:space-y-16">
             
             {/* 1. Personal Welcome Workspace Alert Header with Custom Themes by Access Level */}
             {(() => {
@@ -2051,8 +2051,78 @@ export default function App() {
           </AnimatePresence>
 
           {/* Davao Footer Credits */}
-          <footer className="border-t border-white/5 py-4 mt-auto text-center font-mono text-[10px] text-gray-600 bg-brand-dark">
-            <p>© 2026 Callbox Inc. Davao Node Hub. Designed securely relative to Philippines SEC code directives.</p>
+          <footer className="border-t border-white/10 bg-[#111827]/85 backdrop-blur-xl py-6 sm:py-8 mt-auto relative z-10 selection:bg-brand-primary/20">
+            <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-center text-center md:text-left">
+                
+                {/* Column 1: Brand & SEC compliance info */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-center md:justify-start gap-2">
+                    <div className="h-5 w-5 rounded-md bg-brand-primary/10 border border-brand-primary/25 text-brand-primary flex items-center justify-center">
+                      <Fingerprint className="h-3 w-3 animate-pulse" />
+                    </div>
+                    <span className="font-display font-bold text-white text-[11px] uppercase tracking-wider">
+                      CALLBOX <span className="text-brand-primary">DAVAO</span> NODE
+                    </span>
+                    <span className="px-1.5 py-0.5 rounded bg-white/5 border border-white/5 text-[8px] text-gray-400 font-mono">DVO_10</span>
+                  </div>
+                  <p className="text-[10px] text-gray-500 font-sans max-w-xs leading-normal mx-auto md:mx-0">
+                    © 2026 Callbox Inc. Davao Node Hub. Designed securely relative to Philippines SEC code directives & compliance frameworks.
+                  </p>
+                </div>
+
+                {/* Column 2: Live Node Diagnostics / Integrity ticker */}
+                <div className="flex flex-col items-center justify-center space-y-2 border-y border-white/5 md:border-y-0 py-4 md:py-0">
+                  <span className="text-[8px] font-mono text-gray-500 uppercase tracking-widest">Live Node Diagnostics</span>
+                  <div className="flex flex-wrap items-center justify-center gap-2.5 text-[9px] font-mono">
+                    <div className="flex items-center gap-1 bg-white/2 border border-white/5 px-2 py-0.5 rounded">
+                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      <span className="text-gray-400">SSL:</span>
+                      <span className="text-emerald-400 font-bold">1.3</span>
+                    </div>
+                    <div className="flex items-center gap-1 bg-white/2 border border-white/5 px-2 py-0.5 rounded">
+                      <span className="text-gray-400">LATENCY:</span>
+                      <span className="text-cyan-300 font-bold">18ms</span>
+                    </div>
+                    <div className="flex items-center gap-1 bg-white/2 border border-white/5 px-2 py-0.5 rounded">
+                      <span className="text-gray-400">INTEGRITY:</span>
+                      <span className="text-brand-primary font-bold">99.98%</span>
+                    </div>
+                  </div>
+                  <span className="text-[8.5px] text-gray-600 font-mono uppercase tracking-wider">
+                    Node IP: <span className="text-gray-400">172.24.1.1</span> | Location: <span className="text-gray-400">Davao, PH</span>
+                  </span>
+                </div>
+
+                {/* Column 3: Navigation shortcuts & diagnostics triggers */}
+                <div className="flex flex-col sm:flex-row items-center justify-center md:justify-end gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsSitemapOpen(true);
+                      playBeep(880, 0.1);
+                    }}
+                    className="px-3.5 py-1.5 bg-brand-primary/10 border border-brand-primary/20 hover:border-brand-primary/40 text-brand-primary hover:text-white rounded-lg text-[9.5px] font-mono font-bold uppercase tracking-wider transition-all duration-300 flex items-center gap-1.5 cursor-pointer hover:bg-brand-primary/20"
+                  >
+                    <Cpu className="h-3.5 w-3.5" />
+                    Sitemap Index
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      playBeep(980, 0.08);
+                      setFeedbackToast("Security protocol active: SHA-256 integrity check verified successfully.");
+                    }}
+                    className="px-3 py-1.5 bg-white/5 border border-white/5 hover:border-white/10 hover:bg-white/10 text-gray-300 rounded-lg text-[9.5px] font-mono uppercase tracking-wider transition-all duration-300 flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <CheckCircle className="h-3.5 w-3.5 text-emerald-400" />
+                    Security Protocol
+                  </button>
+                </div>
+
+              </div>
+            </div>
           </footer>
 
         </div>

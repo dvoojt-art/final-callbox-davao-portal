@@ -92,9 +92,9 @@ export default function LandingHero({ onEnterPortal, onOpenSitemap, announcement
     <div className="min-h-screen bg-transparent overflow-x-hidden relative flex flex-col justify-between" id="portal-landing-hero">
       
       {/* Decorative gradient glowing backing fields */}
-      <div className="absolute top-[-100px] left-[-100px] w-[400px] h-[400px] bg-brand-primary/10 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute top-[20%] right-[-50px] w-[500px] h-[500px] bg-brand-accent/5 rounded-full blur-[160px] pointer-events-none" />
-      <div className="absolute bottom-[-100px] left-[30%] w-[450px] h-[450px] bg-brand-primary/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute -top-25 -left-25 w-100 h-100 bg-brand-primary/10 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-[20%] -right-12.5 w-125 h-125 bg-brand-accent/5 rounded-full blur-[160px] pointer-events-none" />
+      <div className="absolute -bottom-25 left-[30%] w-112.5 h-112.5 bg-brand-primary/5 rounded-full blur-[120px] pointer-events-none" />
 
       {/* Floating high-tech abstract nodes */}
       <div className="absolute top-24 left-[10%] opacity-45 hidden md:block">
@@ -216,7 +216,7 @@ export default function LandingHero({ onEnterPortal, onOpenSitemap, announcement
                     return (
                       <div
                         key={ann.id}
-                        className="w-full max-w-2xl text-left p-8 sm:p-10 bg-brand-surface/30 hover:bg-brand-surface/45 hover:border-brand-primary/40 border border-brand-primary/15 rounded-2xl cursor-pointer transition-all duration-300 flex flex-col justify-between min-h-[240px] shadow-lg group hover:scale-[1.01]"
+                        className="w-full max-w-2xl text-left p-8 sm:p-10 bg-brand-surface/30 hover:bg-brand-surface/45 hover:border-brand-primary/40 border border-brand-primary/15 rounded-2xl cursor-pointer transition-all duration-300 flex flex-col justify-between min-h-60 shadow-lg group hover:scale-[1.01]"
                         onClick={() => setSelectedAnnouncement(ann)}
                         id={`announcement-slide-${ann.id}`}
                       >
@@ -244,7 +244,7 @@ export default function LandingHero({ onEnterPortal, onOpenSitemap, announcement
                         </div>
 
                         <div className="flex items-center justify-between text-[10px] font-mono text-brand-primary mt-4 pt-4 border-t border-white/5">
-                          <span className="truncate max-w-[150px] text-gray-500">Posted by: {ann.publishedBy}</span>
+                          <span className="truncate max-w-37.5 text-gray-500">Posted by: {ann.publishedBy}</span>
                           <span className="font-bold uppercase tracking-wider flex items-center gap-1 group-hover:translate-x-1 transition-transform">Read full details &rarr;</span>
                         </div>
                       </div>
@@ -253,7 +253,7 @@ export default function LandingHero({ onEnterPortal, onOpenSitemap, announcement
                 </div>
               ) : (
                 /* Infinite ticker running LTR, compress card widths when there are many */
-                <div className="relative w-screen left-1/2 -ml-[50vw] overflow-hidden py-4 pause-hover">
+                <div className="relative w-screen left-1/2 ml-[-50vw] overflow-hidden py-4 pause-hover">
                   {/* Premium screen-edge fades for continuous blending */}
                   <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#0a0f1a] via-[#0a0f1a]/70 to-transparent z-10 pointer-events-none" />
                   <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#0a0f1a] via-[#0a0f1a]/70 to-transparent z-10 pointer-events-none" />
@@ -315,7 +315,7 @@ export default function LandingHero({ onEnterPortal, onOpenSitemap, announcement
 
                             {/* Footer link */}
                             <div className="flex items-center justify-between text-[9px] sm:text-[10px] font-mono text-brand-primary mt-2 pt-2 border-t border-white/5">
-                              <span className="truncate max-w-[120px] text-gray-500">By {ann.publishedBy}</span>
+                              <span className="truncate max-w-30 text-gray-500">By {ann.publishedBy}</span>
                               <span className="font-bold uppercase tracking-wider flex items-center gap-0.5 group-hover:translate-x-1 transition-transform">Read &rarr;</span>
                             </div>
                           </div>
@@ -555,7 +555,7 @@ export default function LandingHero({ onEnterPortal, onOpenSitemap, announcement
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 backdrop-blur-md p-4"
+            className="fixed inset-0 z-100 flex items-center justify-center bg-black/85 backdrop-blur-md p-4"
           >
             <motion.div
               initial={{ scale: 0.95, y: 15 }}

@@ -762,7 +762,7 @@ export default function LoginScreen({
           )}
 
           {/* Core Login and Preview layout */}
-          <div className="relative overflow-hidden w-full pt-2 min-h-[270px]" id="portal-sliding-container">
+          <div className="relative overflow-hidden w-full pt-2 min-h-67.5" id="portal-sliding-container">
             <AnimatePresence mode="wait" initial={false} custom={direction}>
               {selectedProfile === 'Employee' ? (
                 <motion.div
@@ -1057,7 +1057,7 @@ export default function LoginScreen({
                     <label className="block text-gray-400 font-medium font-mono uppercase tracking-wider text-[10px]">
                       Step 1: Select Admin Account
                     </label>
-                    <div className="space-y-2 max-h-[250px] overflow-y-auto pr-1">
+                    <div className="space-y-2 max-h-62.5 overflow-y-auto pr-1">
                       {employees.filter(emp => emp.role === 'Super Admin' || emp.role === 'HR').map(emp => {
                         const isSelected = selectedEmployee?.id === emp.id || 
                                            (!selectedEmployee && emp.role === 'Super Admin' && usernameOrEmail === '');

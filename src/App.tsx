@@ -1586,7 +1586,10 @@ export default function App() {
                 {/* Notification Bell alert sliders */}
                 {currentUser.role !== 'Inactive' && (
                   <button
-                    onClick={() => setIsNotifOpen(!isNotifOpen)}
+                    onClick={() => {
+                      setIsNotifOpen(!isNotifOpen);
+                      setNotifications(prev => prev.map(n => ({ ...n, isRead: true })));
+                    }}
                     className="relative p-2.5 rounded-xl border border-white/5 bg-white/5 hover:bg-brand-primary/10 hover:text-brand-primary hover:border-brand-primary/25 transition-all cursor-pointer group"
                     title="Alert Feed"
                     id="notifications-bell"

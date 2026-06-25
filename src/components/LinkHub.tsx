@@ -371,7 +371,7 @@ export default function LinkHub({
             onClick={() => setSelectedCategory(cat)}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 450, damping: 20 }}
-            className={`px-3.5 sm:px-4 py-2.5 sm:py-3 min-h-[44px] flex items-center justify-center rounded-xl text-xs font-semibold tracking-wide uppercase whitespace-nowrap transition-all duration-200 cursor-pointer ${
+            className={`px-3.5 sm:px-4 py-2.5 sm:py-3 min-h-11 flex items-center justify-center rounded-xl text-xs font-semibold tracking-wide uppercase whitespace-nowrap transition-all duration-200 cursor-pointer ${
               selectedCategory === cat 
                 ? 'bg-brand-primary text-brand-dark font-bold' 
                 : 'bg-brand-surface border border-white/5 text-gray-400 hover:text-white hover:border-white/10'
@@ -491,13 +491,13 @@ export default function LinkHub({
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: -10 }}
                         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                        className="w-[285px] sm:w-[320px] md:w-[calc(50%-10px)] xl:w-[calc(33.333%-14px)] shrink-0 snap-start glass-panel group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-white/5 bg-brand-surface/20 p-5 text-left transition-all duration-500 select-none hover:border-brand-primary/25 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.5),0_0_20px_rgba(255,199,44,0.06)]"
+                        className="w-71.25 sm:w-[320px] md:w-[calc(50%-10px)] xl:w-[calc(33.333%-14px)] shrink-0 snap-start glass-panel group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-white/5 bg-brand-surface/20 p-5 text-left transition-all duration-500 select-none hover:border-brand-primary/25 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,0,0,0.5),0_0_20px_rgba(255,199,44,0.06)]"
                       >
                         {/* Top border glowing neon transition */}
                         <div className="absolute top-0 right-0 left-0 h-[1.5px] bg-gradient-to-r from-transparent via-brand-primary/40 to-transparent opacity-50 group-hover:via-brand-primary group-hover:opacity-100 transition-all duration-500" />
                         
                         {/* Glowing vertical left edge overlay */}
-                        <div className="absolute top-0 bottom-0 left-0 w-[2px] bg-brand-primary scale-y-0 group-hover:scale-y-100 origin-top transition-transform duration-300" />
+                        <div className="absolute top-0 bottom-0 left-0 w-0.5 bg-brand-primary scale-y-0 group-hover:scale-y-100 origin-top transition-transform duration-300" />
 
                         <div>
                           {/* Auto embedded landing page image preview */}
@@ -547,7 +547,7 @@ export default function LinkHub({
                             )}
                           </h3>
                           
-                          <p className="text-xs text-gray-400 mt-1.5 line-clamp-2 min-h-[36px] whitespace-normal leading-relaxed">
+                          <p className="text-xs text-gray-400 mt-1.5 line-clamp-2 min-h-9 whitespace-normal leading-relaxed">
                             {link.description}
                           </p>
                         </div>
@@ -592,7 +592,7 @@ export default function LinkHub({
                 </button>
                 
                 {/* Cyberpunk progress line tracker */}
-                <div className="flex-1 h-[2px] bg-white/5 rounded-full overflow-hidden relative">
+                <div className="flex-1 h-0.5 bg-white/5 rounded-full overflow-hidden relative">
                   <div 
                     className="absolute left-0 top-0 bottom-0 bg-gradient-to-r from-brand-accent to-brand-primary rounded-full transition-all duration-200"
                     style={{ width: `${Math.min(100, Math.max(8, scrollProgress))}%` }}
@@ -637,7 +637,7 @@ export default function LinkHub({
                       <div className="absolute top-0 right-0 left-0 h-[1.5px] bg-gradient-to-r from-transparent via-brand-primary/40 to-transparent opacity-50 group-hover:via-brand-primary group-hover:opacity-100 transition-all duration-500" />
                       
                       {/* Glowing vertical left edge overlay */}
-                      <div className="absolute top-0 bottom-0 left-0 w-[2px] bg-brand-primary scale-y-0 group-hover:scale-y-100 origin-top transition-transform duration-300" />
+                      <div className="absolute top-0 bottom-0 left-0 w-0.5 bg-brand-primary scale-y-0 group-hover:scale-y-100 origin-top transition-transform duration-300" />
 
                       <div>
                         {/* Auto embedded landing page image preview */}
@@ -687,7 +687,7 @@ export default function LinkHub({
                           )}
                         </h3>
                         
-                        <p className="text-xs text-gray-400 mt-1.5 line-clamp-2 min-h-[36px] whitespace-normal leading-relaxed">
+                        <p className="text-xs text-gray-400 mt-1.5 line-clamp-2 min-h-9 whitespace-normal leading-relaxed">
                           {link.description}
                         </p>
                       </div>
@@ -737,7 +737,7 @@ export default function LinkHub({
                 <p>Star items to bookmark on your quick launch dock.</p>
               </div>
             ) : (
-              <ul className="space-y-2.5 max-h-[320px] overflow-y-auto pr-1 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-brand-primary/10 hover:scrollbar-thumb-brand-primary/35">
+              <ul className="space-y-2.5 max-h-80 overflow-y-auto pr-1 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-brand-primary/10 hover:scrollbar-thumb-brand-primary/35">
                 {links.filter(l => favorites.includes(l.id)).map(link => (
                   <li key={link.id}>
                     <button
@@ -770,7 +770,7 @@ export default function LinkHub({
             {recentLaunches.length === 0 ? (
               <p className="text-xs text-gray-500 text-center py-5 border border-dashed border-white/5 rounded-xl font-mono">No visited links recorded yet</p>
             ) : (
-              <div className="space-y-2 max-h-[320px] overflow-y-auto pr-1 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-brand-primary/10 hover:scrollbar-thumb-brand-primary/35">
+              <div className="space-y-2 max-h-80 overflow-y-auto pr-1 scrollbar-thin scrollbar-track-transparent scrollbar-thumb-brand-primary/10 hover:scrollbar-thumb-brand-primary/35">
                 {recentLaunches.map(id => {
                   const item = links.find(l => l.id === id);
                   if (!item) return null;
@@ -808,7 +808,7 @@ export default function LinkHub({
                 <div key={item.id} className="flex items-center justify-between text-xs font-mono">
                   <div className="flex items-center gap-2 min-w-0">
                     <span className="text-brand-primary text-xs font-bold w-4">#{idx+1}</span>
-                    <span className="text-gray-300 truncate font-medium max-w-[120px]">{item.title}</span>
+                    <span className="text-gray-300 truncate font-medium max-w-30">{item.title}</span>
                   </div>
                   <span className="text-gray-500 text-[10px] shrink-0">{item.clickCount} access</span>
                 </div>
@@ -912,7 +912,7 @@ export default function LinkHub({
                 </div>
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
-                    <h3 className="font-display font-bold text-sm text-white truncate max-w-[150px] sm:max-w-[280px]">
+                    <h3 className="font-display font-bold text-sm text-white truncate max-w-37.5 sm:max-w-70">
                       {sandboxLink.title}
                     </h3>
                     <span className="font-mono text-[9px] font-semibold text-brand-accent uppercase tracking-widest bg-brand-primary/10 px-2 py-0.5 rounded-full border border-brand-primary/10 shrink-0">

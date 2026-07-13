@@ -1,19 +1,79 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
+:root {
+  --brand-primary: #38bdf8;
+  --brand-secondary: #0088FF;
+  --brand-accent: #00F0FF;
+  --brand-dark: #030712;
+  --brand-surface: rgba(15, 23, 42, 0.45);
+  --brand-surface-light: rgba(30, 41, 59, 0.55);
+  --brand-light: #F8FAFC;
+  --brand-success: #10B981;
+  --brand-primary-glow: rgba(56, 189, 248, 0.4);
+}
+
+html.theme-yellow {
+  --brand-primary: #FBBF24;
+  --brand-secondary: #D97706;
+  --brand-accent: #FDE68A;
+  --brand-dark: #0B0F19;
+  --brand-surface: rgba(22, 28, 41, 0.55);
+  --brand-surface-light: rgba(34, 43, 62, 0.65);
+  --brand-light: #F9FAFB;
+  --brand-success: #10B981;
+  --brand-primary-glow: rgba(251, 191, 36, 0.4);
+}
+
+html.theme-light {
+  --brand-primary: #D97706;
+  --brand-secondary: #B45309;
+  --brand-accent: #FBBF24;
+  --brand-dark: #F3F4F6;
+  --brand-surface: rgba(255, 255, 255, 0.75);
+  --brand-surface-light: rgba(241, 245, 249, 0.85);
+  --brand-light: #0F172A;
+  --brand-success: #059669;
+  --brand-primary-glow: rgba(217, 119, 6, 0.15);
+}
+
+html.theme-red {
+  --brand-primary: #FF3B30;
+  --brand-secondary: #C41C16;
+  --brand-accent: #FFA29E;
+  --brand-dark: #0A0202;
+  --brand-surface: rgba(41, 15, 15, 0.55);
+  --brand-surface-light: rgba(62, 25, 25, 0.65);
+  --brand-light: #FFF5F5;
+  --brand-success: #10B981;
+  --brand-primary-glow: rgba(255, 59, 48, 0.4);
+}
+
+html.theme-green {
+  --brand-primary: #34C759;
+  --brand-secondary: #248A3D;
+  --brand-accent: #97F1AF;
+  --brand-dark: #020A04;
+  --brand-surface: rgba(15, 41, 22, 0.55);
+  --brand-surface-light: rgba(25, 62, 34, 0.65);
+  --brand-light: #F5FFF7;
+  --brand-success: #10B981;
+  --brand-primary-glow: rgba(52, 199, 89, 0.4);
+}
+
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Space Grotesk", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
   
-  --color-brand-primary: #38bdf8;
-  --color-brand-secondary: #0088FF;
-  --color-brand-accent: #00F0FF;
-  --color-brand-dark: #030712;
-  --color-brand-surface: rgba(15, 23, 42, 0.45);
-  --color-brand-surface-light: rgba(30, 41, 59, 0.55);
-  --color-brand-light: #F8FAFC;
-  --color-brand-success: #10B981;
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-secondary: var(--brand-secondary);
+  --color-brand-accent: var(--brand-accent);
+  --color-brand-dark: var(--brand-dark);
+  --color-brand-surface: var(--brand-surface);
+  --color-brand-surface-light: var(--brand-surface-light);
+  --color-brand-light: var(--brand-light);
+  --color-brand-success: var(--brand-success);
 }
 
 /* Custom scrollbar */
@@ -74,7 +134,7 @@ body.scroll-locked {
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, #FFFFFF 20%, #38bdf8 70%, #00f0ff 100%);
+  background: linear-gradient(135deg, var(--brand-light) 20%, var(--brand-primary) 70%, var(--brand-accent) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -109,12 +169,242 @@ body.scroll-locked {
 
 /* Sui/Awwwards-style premium deep gradient background */
 .sui-bg-gradient {
-  background-color: #030712;
+  background-color: var(--brand-dark);
   background-image: 
-    radial-gradient(ellipse at 50% 60%, rgba(0, 114, 255, 0.26) 0%, rgba(0, 240, 255, 0.10) 30%, rgba(3, 7, 18, 1) 80%),
-    radial-gradient(circle at 100% 0%, rgba(56, 189, 248, 0.08) 0%, rgba(3, 7, 18, 0) 50%),
-    radial-gradient(circle at 0% 100%, rgba(0, 240, 255, 0.05) 0%, rgba(3, 7, 18, 0) 50%);
+    radial-gradient(ellipse at 50% 60%, rgba(56, 189, 248, 0.18) 0%, rgba(0, 240, 255, 0.06) 30%, var(--brand-dark) 80%),
+    radial-gradient(circle at 100% 0%, rgba(56, 189, 248, 0.06) 0%, rgba(3, 7, 18, 0) 50%),
+    radial-gradient(circle at 0% 100%, rgba(0, 240, 255, 0.03) 0%, rgba(3, 7, 18, 0) 50%);
   position: relative;
+  transition: background 0.5s ease-in-out;
+}
+
+html.theme-yellow .sui-bg-gradient {
+  background-color: #0B0F19;
+  background-image: 
+    radial-gradient(ellipse at 50% 60%, rgba(251, 191, 36, 0.15) 0%, rgba(253, 230, 138, 0.04) 30%, #0B0F19 80%),
+    radial-gradient(circle at 100% 0%, rgba(251, 191, 36, 0.05) 0%, rgba(11, 15, 25, 0) 50%),
+    radial-gradient(circle at 0% 100%, rgba(251, 191, 36, 0.02) 0%, rgba(11, 15, 25, 0) 50%);
+}
+
+html.theme-light .sui-bg-gradient {
+  background-color: #F3F4F6;
+  background-image: 
+    radial-gradient(ellipse at 50% 60%, rgba(217, 119, 6, 0.08) 0%, rgba(245, 158, 11, 0.04) 30%, #F3F4F6 80%),
+    radial-gradient(circle at 100% 0%, rgba(217, 119, 6, 0.05) 0%, rgba(243, 244, 246, 0) 50%);
+}
+
+/* --- High Contrast Light Mode Overrides --- */
+html.theme-light body {
+  color: #1E293B;
+}
+
+html.theme-light .text-white {
+  color: #0F172A !important;
+}
+
+html.theme-light .text-gray-200 {
+  color: #1E293B !important;
+}
+
+html.theme-light .text-gray-300 {
+  color: #334155 !important;
+}
+
+html.theme-light .text-gray-400 {
+  color: #475569 !important;
+}
+
+html.theme-light .text-gray-500 {
+  color: #64748B !important;
+}
+
+html.theme-light .text-brand-light {
+  color: #0F172A !important;
+}
+
+html.theme-light .bg-brand-surface {
+  background-color: rgba(255, 255, 255, 0.75) !important;
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+}
+
+html.theme-light .bg-brand-surface\/40 {
+  background-color: rgba(255, 255, 255, 0.55) !important;
+}
+
+html.theme-light .bg-brand-surface\/70 {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+}
+
+html.theme-light .bg-brand-surface-light {
+  background-color: rgba(241, 245, 249, 0.9) !important;
+}
+
+html.theme-light .border-white\/5 {
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.theme-light .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+html.theme-light .bg-brand-dark\/40 {
+  background-color: rgba(241, 245, 249, 0.8) !important;
+}
+
+html.theme-light .glass-panel {
+  background-color: rgba(255, 255, 255, 0.82) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.15) !important;
+}
+
+html.theme-light .bg-brand-dark\/90 {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+html.theme-light .bg-\[\#1f2937\]\/95 {
+  background-color: rgba(255, 255, 255, 0.98) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+html.theme-light .bg-\[\#111827\]\/60 {
+  background-color: rgba(241, 245, 249, 0.95) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+html.theme-light .hover\:bg-white\/5:hover {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+html.theme-light .hover\:bg-brand-surface\/70:hover {
+  background-color: rgba(255, 255, 255, 0.8) !important;
+}
+
+html.theme-light input {
+  color: #0F172A !important;
+}
+
+html.theme-light input::placeholder {
+  color: #94A3B8 !important;
+}
+
+html.theme-light .text-gradient {
+  background: linear-gradient(135deg, #1E293B 20%, #D97706 70%, #B45309 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Light mode specific Scrollbar overrides */
+html.theme-light ::-webkit-scrollbar-track {
+  background: #F3F4F6 !important;
+}
+
+html.theme-light ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15) !important;
+}
+
+html.theme-light ::-webkit-scrollbar-thumb:hover {
+  background: var(--brand-primary) !important;
+}
+
+/* Neural Pointer HUD specific overrides in Light Mode */
+html.theme-light #neural-link-portal-hud {
+  color: #1E293B !important;
+}
+
+html.theme-light #neural-link-portal-hud .text-white {
+  color: #0F172A !important;
+}
+
+html.theme-light #neural-link-portal-hud .text-gray-400 {
+  color: #475569 !important;
+}
+
+html.theme-light #neural-link-portal-hud .text-gray-300 {
+  color: #334155 !important;
+}
+
+html.theme-light #neural-link-portal-hud .text-gray-500 {
+  color: #64748B !important;
+}
+
+html.theme-light #neural-link-portal-hud .bg-black\/30 {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.theme-light #neural-link-portal-hud .bg-black\/40 {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.theme-light #neural-link-portal-hud .bg-white\/5 {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.theme-light #neural-link-portal-hud .border-white\/5 {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+html.theme-light #neural-link-portal-hud .border-white\/10 {
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+html.theme-light #neural-link-portal-hud button {
+  color: #1E293B !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+html.theme-light #neural-link-portal-hud button:hover {
+  background-color: rgba(0, 0, 0, 0.04) !important;
+}
+
+html.theme-light #neural-link-portal-hud button.bg-brand-primary {
+  background-color: var(--brand-primary) !important;
+  color: #FFFFFF !important;
+}
+
+/* Selected button highlights */
+html.theme-light #neural-link-portal-hud button[class*="border-brand-primary"],
+html.theme-light #neural-link-portal-hud button.ring-brand-primary {
+  border-color: var(--brand-primary) !important;
+  background-color: rgba(217, 119, 6, 0.06) !important;
+  color: var(--brand-primary) !important;
+}
+
+html.theme-light #neural-link-portal-hud .text-amber-600 {
+  color: #B45309 !important;
+}
+
+html.theme-light #neural-link-portal-hud #theme-btn-light {
+  color: #B45309 !important;
+  background-color: rgba(217, 119, 6, 0.06) !important;
+  border-color: rgba(217, 119, 6, 0.15) !important;
+}
+
+html.theme-light #neural-link-portal-hud #theme-btn-dark {
+  color: #475569 !important;
+  background-color: rgba(0, 0, 0, 0.02) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.theme-light #neural-link-portal-hud #theme-btn-yellow {
+  color: #D97706 !important;
+  background-color: rgba(0, 0, 0, 0.02) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.theme-light #neural-link-portal-hud #theme-btn-red {
+  color: #DC2626 !important;
+  background-color: rgba(0, 0, 0, 0.02) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.theme-light #neural-link-portal-hud #theme-btn-green {
+  color: #16A34A !important;
+  background-color: rgba(0, 0, 0, 0.02) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
 }
 
 /* Subtle elegant float motion for high-priority cards */

@@ -338,9 +338,9 @@ export default function LandingHero({ onEnterPortal, onOpenSitemap, onOpenPolicy
                           transformOrigin: 'left center',
                           filter: 'none',
                           opacity: opacity,
-                          color: factor > 0 ? '#38bdf8' : '#ffffff',
+                          color: factor > 0 ? 'var(--brand-primary)' : 'var(--brand-light)',
                           marginRight: '1px',
-                          textShadow: factor > 0 ? `0 0 15px rgba(56, 189, 248, ${0.4 * opacity})` : 'none'
+                          textShadow: factor > 0 ? `0 0 15px var(--brand-primary-glow)` : 'none'
                         }}
                       >
                         {char}
@@ -367,9 +367,9 @@ export default function LandingHero({ onEnterPortal, onOpenSitemap, onOpenPolicy
                           transformOrigin: 'left center',
                           filter: 'none',
                           opacity: opacity,
-                          color: factor > 0 ? '#38bdf8' : '#ffffff',
+                          color: factor > 0 ? 'var(--brand-primary)' : 'var(--brand-light)',
                           marginRight: index >= 11 ? '8px' : '1px',
-                          textShadow: factor > 0 ? `0 0 15px rgba(56, 189, 248, ${0.4 * opacity})` : 'none'
+                          textShadow: factor > 0 ? `0 0 15px var(--brand-primary-glow)` : 'none'
                         }}
                       >
                         {char}

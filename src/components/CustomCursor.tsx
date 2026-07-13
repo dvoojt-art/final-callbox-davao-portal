@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Sparkles, Cpu, Target, Zap, MousePointer, Settings, X, Activity, ShieldCheck } from 'lucide-react';
+import { Sparkles, Cpu, Target, Zap, MousePointer, Settings, X, Activity, ShieldCheck, Sun, Moon, Palette } from 'lucide-react';
 
 interface Particle {
   id: number;
@@ -57,6 +57,16 @@ export default function CustomCursor() {
   });
   const [sparklesEnabled, setSparklesEnabled] = useState(true);
   const [hudOpen, setHudOpen] = useState(false);
+  
+  // Custom theme states: 'yellow' (Callbox Yellow), 'dark' (Cyber Dark), 'light' (Sleek Light), 'red' (Crimson Red), 'green' (Davao Green)
+  const [theme, setTheme] = useState<'yellow' | 'dark' | 'light' | 'red' | 'green'>(() => {
+    try {
+      const saved = localStorage.getItem('cb_theme');
+      return (saved as 'yellow' | 'dark' | 'light' | 'red' | 'green') || 'yellow';
+    } catch {
+      return 'yellow';
+    }
+  });
 
   // Physics Trailing & Velocity States
   const [velocity, setVelocity] = useState(0);
@@ -131,6 +141,32 @@ export default function CustomCursor() {
     localStorage.setItem('cb_cursor_preset', preset);
     localStorage.setItem('cb_cursor_color', cursorColor);
   }, [isEnabled, preset, cursorColor]);
+
+  // Synchronize dynamic active theme
+  useEffect(() => {
+    try {
+      localStorage.setItem('cb_theme', theme);
+    } catch (e) {
+      console.error(e);
+    }
+    
+    const root = document.documentElement;
+    root.classList.remove('theme-yellow', 'theme-dark', 'theme-light', 'theme-red', 'theme-green');
+    root.classList.add(`theme-${theme}`);
+    
+    // Auto-align custom cursor color with the active theme for cohesion
+    if (theme === 'yellow') {
+      setCursorColor('#FFC72C');
+    } else if (theme === 'light') {
+      setCursorColor('#FF3B30'); // Crimson/Rose red accent
+    } else if (theme === 'red') {
+      setCursorColor('#FF3B30');
+    } else if (theme === 'green') {
+      setCursorColor('#34C759');
+    } else {
+      setCursorColor('#00F0FF'); // Cyber Cyan accent
+    }
+  }, [theme]);
 
   useEffect(() => {
     if (isMobile || !isEnabled) return;
@@ -621,6 +657,39 @@ export default function CustomCursor() {
                 </div>
               </div>
 
+              {/* Global Portal Theme Selector */}
+              <div className="space-y-1.5 pt-2.5 border-t border-white/5">
+                <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider block">GLOBAL PORTAL THEME</span>
+                <div className="grid grid-cols-5 gap-1.5">
+                  {[
+                    { key: 'yellow', label: 'Yellow', icon: Palette, colorClass: 'text-amber-400 border-amber-500/20 hover:border-amber-500/40 bg-amber-500/5' },
+                    { key: 'dark', label: 'Dark', icon: Moon, colorClass: 'text-cyan-400 border-cyan-500/20 hover:border-cyan-500/40 bg-cyan-500/5' },
+                    { key: 'light', label: 'Light', icon: Sun, colorClass: 'text-amber-600 border-amber-500/20 hover:border-amber-500/40 bg-amber-500/5' },
+                    { key: 'red', label: 'Red', icon: Palette, colorClass: 'text-red-400 border-red-500/20 hover:border-red-500/40 bg-red-500/5' },
+                    { key: 'green', label: 'Green', icon: Palette, colorClass: 'text-emerald-400 border-emerald-500/20 hover:border-emerald-500/40 bg-emerald-500/5' }
+                  ].map((t) => {
+                    const IconComp = t.icon;
+                    const isSel = theme === t.key;
+                    return (
+                      <button
+                        key={t.key}
+                        type="button"
+                        onClick={() => setTheme(t.key as any)}
+                        className={`py-1.5 px-1 rounded-xl border flex flex-col items-center justify-center gap-1 transition-all text-[8.5px] font-bold cursor-pointer ${t.colorClass} ${
+                          isSel 
+                            ? 'bg-white/10 ring-1 ring-brand-primary border-brand-primary' 
+                            : 'opacity-70 hover:opacity-100'
+                        }`}
+                        id={`theme-btn-${t.key}`}
+                      >
+                        <IconComp className="h-3 w-3" />
+                        <span className="text-[7.5px] tracking-tight">{t.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
               {isEnabled && (
                 <>
                   {/* Preset Profile selector */}
@@ -663,15 +732,18 @@ export default function CustomCursor() {
                     <span className="text-[9px] text-gray-400 font-bold uppercase tracking-wider block">QUANTUM HUE ACCENT</span>
                     <div className="flex gap-2 bg-black/30 p-2 rounded-xl border border-white/5">
                       {[
-                        { hex: '#FFC72C', name: 'Gold' },
-                        { hex: '#00F0FF', name: 'Cyan' },
-                        { hex: '#FF3B30', name: 'Crimson' },
-                        { hex: '#34C759', name: 'Emerald' }
+                        { hex: '#FFC72C', name: 'Gold', themeKey: 'yellow' },
+                        { hex: '#00F0FF', name: 'Cyan', themeKey: 'dark' },
+                        { hex: '#FF3B30', name: 'Crimson', themeKey: 'red' },
+                        { hex: '#34C759', name: 'Emerald', themeKey: 'green' }
                       ].map((col) => (
                         <button
                           key={col.hex}
                           type="button"
-                          onClick={() => setCursorColor(col.hex as CursorColor)}
+                          onClick={() => {
+                            setCursorColor(col.hex as CursorColor);
+                            setTheme(col.themeKey as any);
+                          }}
                           className={`h-6 w-6 rounded-lg transition-transform relative flex items-center justify-center cursor-pointer hover:scale-110 active:scale-95`}
                           style={{ backgroundColor: col.hex }}
                           title={col.name}
